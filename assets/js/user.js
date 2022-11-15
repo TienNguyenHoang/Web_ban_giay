@@ -419,19 +419,19 @@ var mangTam = [];
 var totalPage = 0;
 function hienThiSanPhamPhanTrang(brand) {
     if (brand === "Nike") {
-        mang = nike;
+        mang = JSON.parse(localStorage.getItem("nike"));
     }
     else if(brand === "Adidas") {
-        mang = adidas;
+        mang = JSON.parse(localStorage.getItem("adidas"));
     }
     else if(brand === "Jordan") {
-        mang = jordan;
+        mang = JSON.parse(localStorage.getItem("jordan"));
     }
     else if(brand === "Men") {
-        mang = men;
+        mang = JSON.parse(localStorage.getItem("men"));
     }
     else {
-        mang = bitis;
+        mang = JSON.parse(localStorage.getItem("bitis"));
     }
     mangTam = mang.slice((currentPage-1) * perPage,(currentPage-1) * perPage + perPage);
     renderProduct(mangTam);
@@ -485,19 +485,19 @@ function search() {
     var id = url.split('#')[1];
     var arr = [];
     if (id === "Nike") {
-        arr = nike;
+        arr = JSON.parse(localStorage.getItem("nike"));
     }
     else if(id === "Adidas") {
-        arr = adidas;
+        arr = JSON.parse(localStorage.getItem("adidas"));
     }
     else if(id === "Jordan") {
-        arr = jordan;
+        arr = JSON.parse(localStorage.getItem("jordan"));
     }
     else if(id === "Men") {
-        arr = men;
+        arr = JSON.parse(localStorage.getItem("men"));
     }
     else {
-        arr = bitis;
+        arr = JSON.parse(localStorage.getItem("bitis"));
     }
     var valueSearchInput = document.getElementById("search").value;
     var search = arr.filter(function(value,index){

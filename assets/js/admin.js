@@ -1,5 +1,4 @@
 
-
 function hienThiTrangAdmin(obj) {
     switch (obj.id) {
         case "trangchu": {
@@ -123,37 +122,38 @@ var s = `
 document.getElementById("container").innerHTML = s;
 var s = "";
 var stt=0,tong=0,nike=0,adidas=0,jordan=0,men=0,bitis=0;
-for (var i = 0; i < sanPham.length; i++) {
-    for (var j = 0; j < sanPham[i].length; j++) {
+var arr = JSON.parse(localStorage.getItem("sanPham"));
+for (var i = 0; i < arr.length; i++) {
+    for (var j = 0; j < arr[i].length; j++) {
         s += `
         <tr>
             <td>${++stt}</td>
-            <td class="brand">${sanPham[i][j].brand}</td>
-            <td class="name">${sanPham[i][j].name}</td>
-            <td class="productID">${sanPham[i][j].productId}</td>
-            <td class="img"><img src="${sanPham[i][j].img}" alt=""></td>
-            <td class="quantity">${sanPham[i][j].quantity}</td>
-            <td class="price">${sanPham[i][j].price}đ</td>
+            <td class="brand">${arr[i][j].brand}</td>
+            <td class="name">${arr[i][j].name}</td>
+            <td class="productID">${arr[i][j].productId}</td>
+            <td class="img"><img src="${arr[i][j].img}" alt=""></td>
+            <td class="quantity">${arr[i][j].quantity}</td>
+            <td class="price">${arr[i][j].price}đ</td>
             <td class="action">
                 <button onclick="editsp(this);">Edit</button>
                 <button onclick="deletesp();">Delete</button>
             </td>
         </tr>`;
-        tong += sanPham[i][j].quantity;
-        if (sanPham[i][j].brand === "Nike") {
-            nike += sanPham[i][j].quantity;
+        tong += arr[i][j].quantity;
+        if (arr[i][j].brand === "Nike") {
+            nike += arr[i][j].quantity;
         }
-        else if (sanPham[i][j].brand === "Adidas"){
-            adidas += sanPham[i][j].quantity;
+        else if (arr[i][j].brand === "Adidas"){
+            adidas += arr[i][j].quantity;
         }
-        else if (sanPham[i][j].brand === "Jordan"){
-            jordan += sanPham[i][j].quantity;
+        else if (arr[i][j].brand === "Jordan"){
+            jordan += arr[i][j].quantity;
         }
-        else if (sanPham[i][j].brand === "Men"){
-            men += sanPham[i][j].quantity;
+        else if (arr[i][j].brand === "Men"){
+            men += arr[i][j].quantity;
         }
         else {
-            bitis += sanPham[i][j].quantity;
+            bitis += arr[i][j].quantity;
         }
 
     }
@@ -168,19 +168,27 @@ document.getElementById("tongBitis").innerHTML = `<th colspan="8"><spanp>Tổng 
 }
 
 
-
+var brand;
+var productID;
 function editsp(button) {
     document.getElementById("editSP").style.display = "block";
-    var brand = button.parentElement.parentElement.querySelector(".brand").innerHTML;
+    brand = button.parentElement.parentElement.querySelector(".brand").innerHTML;
     var name = button.parentElement.parentElement.querySelector(".name").innerHTML;
-    var productID = button.parentElement.parentElement.querySelector(".productID").innerHTML;
+    productID = button.parentElement.parentElement.querySelector(".productID").innerHTML;
     var img = button.parentElement.parentElement.querySelector(".img").querySelector("img").getAttribute("src");
     var quantity = button.parentElement.parentElement.querySelector(".quantity").innerHTML;
     var price = button.parentElement.parentElement.querySelector(".price").innerHTML;
     
 
     var edit = document.getElementById("form-edit");
-    edit.querySelector(".hangsp").firstElementChild.value = brand;
+    var arr = edit.querySelector(".hangsp").children;
+    console.log(brand);
+    for (var option of arr) {
+        if (option.value === brand) {
+            option.setAttribute("selected", "selected");
+        }
+    }
+
     edit.querySelector(".hangsp").firstElementChild.innerHTML = brand;
     edit.querySelector(".tensp").value = name;
     edit.querySelector(".idsp").value = productID;
@@ -199,48 +207,177 @@ function thietlapEdit() {
     var tensp = document.getElementById("form-edit").querySelector(".tensp").value;
     var masp = document.getElementById("form-edit").querySelector(".idsp").value;
     var hinhsp = document.getElementById("form-edit").querySelector(".hinhsp").getAttribute("src");
+    var slsp = document.getElementById("form-edit").querySelector(".slsp").value;
+    var giasp = document.getElementById("form-edit").querySelector(".giasp").value;
+    var arr = JSON.parse(localStorage.getItem("sanPham"));
+    for (var i = 0; i < arr.length; i++) {
+        for (var j = 0; j < arr[i].length; j++) {
+            if (arr[i][j].productId != productID) {
+                if (arr[i][j].name === tensp) {
+                    document.querySelector(".idsp").parentElement.querySelector(".error-message").innerHTML = "";
+                    document.querySelector(".hinhsp").parentElement.querySelector(".error-message").innerHTML = "";
+    
+                    document.querySelector(".tensp").parentElement.querySelector(".error-message").innerHTML = "Tên sản phẩm đã tồn tại";
+                    document.querySelector(".tensp").parentElement.querySelector(".error-message").style.color = "red";
+                    return false;
+                }
+                else if (arr[i][j].productId === masp) {
+                    document.querySelector(".tensp").parentElement.querySelector(".error-message").innerHTML = "";
+                    document.querySelector(".hinhsp").parentElement.querySelector(".error-message").innerHTML = "";
+    
+                    document.querySelector(".idsp").parentElement.querySelector(".error-message").innerHTML = "ID sản phẩm đã tồn tại";
+                    document.querySelector(".idsp").parentElement.querySelector(".error-message").style.color = "red";
+                    return false;
+    
+                }
+                else if (arr[i][j].img === hinhsp) {
+                    document.querySelector(".idsp").parentElement.querySelector(".error-message").innerHTML = "";
+                    document.querySelector(".tensp").parentElement.querySelector(".error-message").innerHTML = "";
+    
+                    document.querySelector(".hinhsp").parentElement.querySelector(".error-message").innerHTML = "Hình sản phẩm đã tồn tại";
+                    document.querySelector(".hinhsp").parentElement.querySelector(".error-message").style.color = "red";
+                    return false;
+                }
+                else {
+                    document.querySelector(".idsp").parentElement.querySelector(".error-message").innerHTML = "";
+                    document.querySelector(".tensp").parentElement.querySelector(".error-message").innerHTML = "";
+                    document.querySelector(".hinhsp").parentElement.querySelector(".error-message").innerHTML = "";
+                }
 
-    for (var i = 0; i < sanPham.length; i++) {
-        for (var j = 0; j < sanPham[i].length; j++) {
-            if (sanPham[i][j].name === tensp) {
-                document.querySelector(".idsp").parentElement.querySelector(".error-message").innerHTML = "";
-                document.querySelector(".hinhsp").parentElement.querySelector(".error-message").innerHTML = "";
-
-                document.querySelector(".tensp").parentElement.querySelector(".error-message").innerHTML = "Tên sản phẩm đã tồn tại";
-                document.querySelector(".tensp").parentElement.querySelector(".error-message").style.color = "red";
-                return false;
             }
-            else if (sanPham[i][j].productId === masp) {
-                document.querySelector(".tensp").parentElement.querySelector(".error-message").innerHTML = "";
-                document.querySelector(".hinhsp").parentElement.querySelector(".error-message").innerHTML = "";
-
-                document.querySelector(".idsp").parentElement.querySelector(".error-message").innerHTML = "ID sản phẩm đã tồn tại";
-                document.querySelector(".idsp").parentElement.querySelector(".error-message").style.color = "red";
-                return false;
-
-            }
-            else if (sanPham[i][j].img === hinhsp) {
-                document.querySelector(".idsp").parentElement.querySelector(".error-message").innerHTML = "";
-                document.querySelector(".tensp").parentElement.querySelector(".error-message").innerHTML = "";
-
-                document.querySelector(".hinhsp").parentElement.querySelector(".error-message").innerHTML = "Hình sản phẩm đã tồn tại";
-                document.querySelector(".hinhsp").parentElement.querySelector(".error-message").style.color = "red";
-                return false;
-            }
-            else {
-                document.querySelector(".idsp").parentElement.querySelector(".error-message").innerHTML = "";
-                document.querySelector(".tensp").parentElement.querySelector(".error-message").innerHTML = "";
-                document.querySelector(".hinhsp").parentElement.querySelector(".error-message").innerHTML = "";
-            }
+            
         }
     }
-    var checkId = document.querySelector(".idsp").parentElement.querySelector(".error-message").innerHTML;
-    var checkTen = document.querySelector(".tensp").parentElement.querySelector(".error-message").innerHTML;
-    var checkHinh = document.querySelector(".hinhsp").parentElement.querySelector(".error-message").innerHTML;
+    var checkId = document.querySelector(".idsp").parentElement.querySelector(".error-message").innerText;
+    var checkTen = document.querySelector(".tensp").parentElement.querySelector(".error-message").innerText;
+    var checkHinh = document.querySelector(".hinhsp").parentElement.querySelector(".error-message").innerText;
+    console.log(checkId, checkTen, checkHinh);
+    var Nike = JSON.parse(localStorage.getItem("nike"));
+    var Adidas = JSON.parse(localStorage.getItem("adidas"));
+    var Jordan = JSON.parse(localStorage.getItem("jordan"));
+    var Men = JSON.parse(localStorage.getItem("men"));
+    var Bitis = JSON.parse(localStorage.getItem("bitis"));
+    var sanpham = JSON.parse(localStorage.getItem("sanPham"));
+    if (checkId==="" && checkTen==="" && checkHinh==="") {
+        if (document.querySelector(".hangsp").value === brand) {
+            if (brand === "Nike") {
+                Nike.forEach(function(value,index) {
+                    if (value.productId === productID) {
+                        value.productId = masp;
+                        value.name = tensp;
+                        value.img = hinhsp;
+                        value.quantity = parseInt(slsp);
+                        value.price = parseInt(giasp);
+                    }
+                });
+                localStorage.setItem("nike",JSON.stringify(Nike));
 
-    if (checkId!="" && checkTen!="" && checkHinh!="") {
+                
+                sanpham[0].forEach(function(value,index) {
+                    if (value.productId === productID) {
+                        value.productId = masp;
+                        value.name = tensp;
+                        value.img = hinhsp;
+                        value.quantity = parseInt(slsp);
+                        value.price = parseInt(giasp);
+                    }
+                });
+                localStorage.setItem("sanPham",JSON.stringify(sanpham));
+            }
+            else if (brand === "Adidas") {
+                Adidas.forEach(function(value,index) {
+                    if (value.productId === productID) {
+                        value.productId = masp;
+                        value.name = tensp;
+                        value.img = hinhsp;
+                        value.quantity = parseInt(slsp);
+                        value.price = parseInt(giasp);
+                    }
+                });
+                localStorage.setItem("nike",JSON.stringify(Adidas));
 
+                sanpham[1].forEach(function(value,index) {
+                    if (value.productId === productID) {
+                        value.productId = masp;
+                        value.name = tensp;
+                        value.img = hinhsp;
+                        value.quantity = parseInt(slsp);
+                        value.price = parseInt(giasp);
+                    }
+                });
+                localStorage.setItem("sanPham",JSON.stringify(sanpham));
+            }
+            else if (brand === "Jordan") {
+                Jordan.forEach(function(value,index) {
+                    if (value.productId === productID) {
+                        value.productId = masp;
+                        value.name = tensp;
+                        value.img = hinhsp;
+                        value.quantity = parseInt(slsp);
+                        value.price = parseInt(giasp);
+                    }
+                });
+                localStorage.setItem("nike",JSON.stringify(Jordan));
 
+                sanpham[2].forEach(function(value,index) {
+                    if (value.productId === productID) {
+                        value.productId = masp;
+                        value.name = tensp;
+                        value.img = hinhsp;
+                        value.quantity = parseInt(slsp);
+                        value.price = parseInt(giasp);
+                    }
+                });
+                localStorage.setItem("sanPham",JSON.stringify(sanpham));
+            }
+            else if (brand === "Men") {
+                Men.forEach(function(value,index) {
+                    if (value.productId === productID) {
+                        value.productId = masp;
+                        value.name = tensp;
+                        value.img = hinhsp;
+                        value.quantity = parseInt(slsp);
+                        value.price = parseInt(giasp);
+                    }
+                });
+                localStorage.setItem("nike",JSON.stringify(Men));
+
+                sanpham[3].forEach(function(value,index) {
+                    if (value.productId === productID) {
+                        value.productId = masp;
+                        value.name = tensp;
+                        value.img = hinhsp;
+                        value.quantity = parseInt(slsp);
+                        value.price = parseInt(giasp);
+                    }
+                });
+                localStorage.setItem("sanPham",JSON.stringify(sanpham));
+            }
+            else if (brand === "Bitis") {
+                Bitis.forEach(function(value,index) {
+                    if (value.productId === productID) {
+                        value.productId = masp;
+                        value.name = tensp;
+                        value.img = hinhsp;
+                        value.quantity = parseInt(slsp);
+                        value.price = parseInt(giasp);
+                    }
+                });
+                localStorage.setItem("nike",JSON.stringify(Bitis));
+
+                sanpham[4].forEach(function(value,index) {
+                    if (value.productId === productID) {
+                        value.productId = masp;
+                        value.name = tensp;
+                        value.img = hinhsp;
+                        value.quantity = parseInt(slsp);
+                        value.price = parseInt(giasp);
+                    }
+                });
+                localStorage.setItem("sanPham",JSON.stringify(sanpham));
+            }
+
+        }
 
 
 
@@ -248,18 +385,6 @@ function thietlapEdit() {
 
         alert("Thiết Lập Thành Công!");
         closeEdit();
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }
 

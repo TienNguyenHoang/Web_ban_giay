@@ -104,6 +104,15 @@ var bitis = [
 var sanPham = [nike,adidas,jordan,men,bitis];
 
 
+//  tránh tạo đè ==> tạo 1 lần rồi thôi
+localStorage.getItem("nike") ? 1 : localStorage.setItem("nike", JSON.stringify(nike));
+localStorage.getItem("nike") ? 1 : localStorage.setItem("adidas", JSON.stringify(adidas));
+localStorage.getItem("nike") ? 1 : localStorage.setItem("jordan", JSON.stringify(jordan));
+localStorage.getItem("nike") ? 1 : localStorage.setItem("men", JSON.stringify(men));
+localStorage.getItem("nike") ? 1 : localStorage.setItem("bitis", JSON.stringify(bitis));
+localStorage.getItem("nike") ? 1 : localStorage.setItem("sanPham", JSON.stringify(sanPham));
+
+
 
 
 
