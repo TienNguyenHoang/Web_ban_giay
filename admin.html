@@ -102,7 +102,65 @@
             </div>
         </div>
 
+        <div id="deleteSP" onclick="closeDelete();">
+            <div id="main-delete">
+                <h1>Xác Nhận Xóa Sản Phẩm</h1>
+                <div id="thongtin">
+                    
+                </div>
+                <p>Bạn có muốn xóa không?</p>
+                <div id="btn">
+                    <button onclick="closeDelete();">Hủy</button>
+                    <button onclick="thietlapDelete();">Xác Nhận</button>
+                </div>
+            </div>
+        </div>
 
+        <div id="addSP">
+            <div id="main-add">
+                <h1>Thêm Sản Phẩm</h1>
+                <form action="" id="form-add">
+                    <div class="formAdd-group">
+                        <label for="">Hãng</label>
+                    <select name="" class="hangsp">
+                        <option value="Nike">Nike</option>
+                        <option value="Adidas">Adidas</option>
+                        <option value="Jordan">Jordan</option>
+                        <option value="Men">Men</option>
+                        <option value="Bitis">Bitis Hunter</option>
+                    </select>
+                    </div>
+                    <div class="formAdd-group">
+                        <label for="">Tên Sản Phẩm</label>
+                        <input type="text" name="" class="tensp" value="">
+                        <div class="error"></div>
+                    </div>
+                    <div class="formAdd-group">
+                        <label for="">ID Sản Phẩm</label>
+                        <input type="text" name="" class="idsp" value="">
+                        <div class="error"></div>
+                    </div>
+                    <div class="formAdd-group">
+                        <label for="">Hình Sản Phẩm</label>
+                        <input class="hinhsp" type="image" src="" style="display: none;">
+                        <input type="file" accept=".jpg, .png, .webp, .jpeg" onchange="doiHinh1(event);">  
+                    </div>
+                    <div class="formAdd-group">
+                        <label for="">Số Lượng Sản Phẩm</label>
+                        <input type="number" name="" class="slsp" value="">
+                    </div>
+                    <div class="formAdd-group">
+                        <label for="">Giá Sản Phẩm</label>
+                        <input type="text" name="" class="giasp" value="">
+                    </div>
+                    <div id="btn">
+                        <button onclick="closeAdd();">Hủy</button>
+                        <button id="setting" onclick="thietlapAdd();">Thêm</button>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
     <script src="/assets/js/main.js"></script>
     <script src="/assets/js/admin.js"></script>
 </body>

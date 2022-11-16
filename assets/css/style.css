@@ -641,6 +641,114 @@ tbody #themSp {
 
 /* --------------------------------------------------- */
 
+/* ----------------------DeleteSP------------------------- */
+#deleteSP {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: none;
+}
+
+#deleteSP #main-delete {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+}
+
+
+#deleteSP #main-delete h1 {
+    background-color: #e74c3c;
+    color: #fff;
+    padding: 20px;
+}
+
+
+#deleteSP #main-delete p {
+    font-size: 20px;
+    text-align: center;
+    padding: 10px;
+}
+
+#deleteSP #main-delete #btn {
+    display: flex;
+}
+
+#deleteSP #main-delete #thongtin {
+    text-align: center;
+    
+}
+
+#main-delete #btn button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+/* ------------------------------------------------------- */
+
+
+
+/* ----------------------AddSP------------------------- */
+
+#addSP {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: none;
+}
+
+#addSP #main-add {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    width: 70%;
+}
+
+#addSP #main-add h1 {
+    background-color: #e74c3c;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+
+#addSP #main-add .formAdd-group {
+    margin: 20px;
+}
+
+
+
+#addSP #main-add .hinhsp {
+    width: 100px;
+}
+
+#addSP #main-add #btn {
+    display: flex;
+}
+
+#addSP #main-add #btn button {
+    flex: 1;
+    cursor: pointer;
+    padding: 10px;
+    color: #fff;
+    background-color: #e74c3c;
+    border: none;
+    font-size: 20px;
+    font-weight: 700;
+}
+/* ---------------------------------------------------- */
+
 
 /* ------------------------------------------------*/
 

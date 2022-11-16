@@ -106,11 +106,11 @@ var sanPham = [nike,adidas,jordan,men,bitis];
 
 //  tránh tạo đè ==> tạo 1 lần rồi thôi
 localStorage.getItem("nike") ? 1 : localStorage.setItem("nike", JSON.stringify(nike));
-localStorage.getItem("nike") ? 1 : localStorage.setItem("adidas", JSON.stringify(adidas));
-localStorage.getItem("nike") ? 1 : localStorage.setItem("jordan", JSON.stringify(jordan));
-localStorage.getItem("nike") ? 1 : localStorage.setItem("men", JSON.stringify(men));
-localStorage.getItem("nike") ? 1 : localStorage.setItem("bitis", JSON.stringify(bitis));
-localStorage.getItem("nike") ? 1 : localStorage.setItem("sanPham", JSON.stringify(sanPham));
+localStorage.getItem("adidas") ? 1 : localStorage.setItem("adidas", JSON.stringify(adidas));
+localStorage.getItem("jordan") ? 1 : localStorage.setItem("jordan", JSON.stringify(jordan));
+localStorage.getItem("men") ? 1 : localStorage.setItem("men", JSON.stringify(men));
+localStorage.getItem("bitis") ? 1 : localStorage.setItem("bitis", JSON.stringify(bitis));
+localStorage.getItem("sanPham") ? 1 : localStorage.setItem("sanPham", JSON.stringify(sanPham));
 
 
 
