@@ -28,6 +28,7 @@ function dangKy() {
 
     var listTaiKhoan = localStorage.getItem("listTaiKhoan") ? JSON.parse(localStorage.getItem("listTaiKhoan")) : [];
     var listGioHang = localStorage.getItem("listGioHang") ? JSON.parse(localStorage.getItem("listGioHang")) : [];
+    var listDonHang = localStorage.getItem("listDonHang") ? JSON.parse(localStorage.getItem("listDonHang")) : [];
 
     // kiểm tra trùng thông tin đăng ký
     var tonTai = false;
@@ -88,6 +89,19 @@ function dangKy() {
         giohang: [],
     })
     localStorage.setItem("listGioHang", JSON.stringify(listGioHang));
+
+
+    listDonHang.push({
+        name: hoten.value,
+        sdt: sdt.value,
+        taikhoan: taikhoan.value,
+        matkhau: matkhau.value,
+        donhang: [],
+    })
+    localStorage.setItem("listDonHang", JSON.stringify(listDonHang));
+
+
+    
     }
     
 }
@@ -139,7 +153,8 @@ function dangNhap() {
                 <p>Mật Khẩu: <span id="show-matkhau">${matkhau}</span></p>
             </div>`
 
-
+        // show Đơn hàng đã đặt
+        document.getElementById("order").style.display = "block";
         // cập nhật giỏ hàng cho khách hàng (lưu lại giỏ hàng của khách khi thoát)  
         var listGioHang = JSON.parse(localStorage.getItem("listGioHang"));
         var stt = 0;
@@ -167,11 +182,7 @@ function dangNhap() {
         }
         console.log(stt);
         document.getElementById("quantity").innerText = stt;
-        document.getElementById("tongTien").innerText = `Tổng Tiền: ${tongtien}đ`;
-
-
-
-
+        document.getElementById("tongTien").innerText = `${tongtien}đ`;
     }
     // tài khoản chưa tồn tại
     else {
@@ -183,8 +194,6 @@ function dangNhap() {
     if (taikhoan === adminTk && matkhau === adminMk) {
         window.location.href = "http://127.0.0.1:5500/admin.html";
     }
-
-
 }
 
 
@@ -210,12 +219,13 @@ function dangXuat() {
     </div>`
 
     document.getElementById("quantity").innerText = 0;
-    document.getElementById("tongTien").innerHTML = `Tổng Tiền: 0đ`;
+    document.getElementById("tongTien").innerHTML = `0đ`;
     var display = document.getElementById("showShop").style.display;
     if (display === "block") {
         document.getElementById("showShop").style.display = "none";
         console.log(document.getElementById("showShop").style.display);
     }
+    document.getElementById("order").style.display = "none";
 
 }
 
@@ -263,8 +273,6 @@ function hienThi(obJ) {
                 +      'Phường 12, Quận Tân Bình, Thành phố Hồ Chí Minh. </p>'
                 +'<img class = "gioiThieu" src="/assets/img/gioithieu5.Jpg" alt="">;'
             '</div>'
-    
-
             document.getElementById("search-main").innerHTML = "";
             document.getElementById("container").outerHTML = s;
             break;
@@ -279,8 +287,6 @@ function hienThi(obJ) {
             = `<input type="text" placeholder="Nhập từ cần tìm" id="search" oninput="search()"></input><i class="fas fa-search"></i>`
             document.getElementById("container").outerHTML = s;
             hienThiSanPhamPhanTrang(a.id);
-    
-
             break;
         }
         case "Adidas": {
@@ -470,7 +476,7 @@ function renderProduct(mang) {
                     <img class="img" src="${mang[i].img}">
                     <h4 class="name">${mang[i].name}</h4>
                     <div class="bot-item">
-                        <p class ="quantity">SL: ${mang[i].quantity}</p>
+                        <p>SL: <span class ="quantity">${mang[i].quantity}</span></p>
                         <p class="price">${mang[i].price}</p><span>đ</span>
                         <button onclick="addProduct(this);"><i class="fas fa-cart-arrow-down"></i>Thêm Vào Giỏ</button>
                     </div>
@@ -570,16 +576,16 @@ function addProduct(button) {
 
     // đã đăng nhập
     if (document.getElementById("user").innerText!="") {
-
-        if (document.getElementById("showShopTable").innerHTML == "") {
+        if (document.getElementById("showShopTable").innerText === "") {
             var stt = 0;
         }
         else {
+            console.log("không rỗng");
             var stt = parseInt(document.getElementById("showShopTable").lastElementChild.querySelector(".stt").innerText);
         }
         var img = button.parentElement.parentElement.querySelector(".img").getAttribute("src");
         var name = button.parentElement.parentElement.querySelector(".name").innerText;
-        var quantity = button.parentElement.parentElement.querySelector(".quantity").innerText;
+        var quantity = parseInt(button.parentElement.querySelector(".quantity").innerText);
         var price = button.parentElement.parentElement.querySelector(".price").innerText;
         var thanhTien;
         // Kiểm tra sản phẩm đã có trong giỏ hàng chưa 
@@ -588,10 +594,20 @@ function addProduct(button) {
         for (var ten of allTen) {
             if (ten.innerText === name) { // nếu đã có ==> tăng số lượng, tăng thành tiền 
                 check = true;
-                var a = ten.parentElement.querySelector(".soLuong").innerText;
-                ten.parentElement.querySelector(".soLuong").innerText = parseInt(a) + 1;
-                thanhTien = (parseInt(a) + 1)*price;
-                ten.parentElement.querySelector(".thanhTien").innerText = thanhTien + "đ";
+                var a = parseInt(ten.parentElement.querySelector(".soLuong").innerText);
+                // Kiểm tra số lượng của 1 sản phẩm trong giỏ hàng không được đặt quá số lượng của shop
+                if (a >= quantity) {
+                    console.log("quá ");
+                    return;
+                }
+                else {
+                    console.log("chưa quá");
+                    ten.parentElement.querySelector(".soLuong").innerText = a + 1;
+                    thanhTien = (a + 1)*price;
+                    console.log("Thành Tiền",thanhTien);
+                    ten.parentElement.querySelector(".thanhTien").innerText = thanhTien + "đ";
+                }
+                // -------------------------------------------------------------------------------------
             }
         }
 
@@ -620,7 +636,7 @@ function addProduct(button) {
         for (var tien of arr) {
             tongTien += parseInt(tien.innerText);
         }
-        document.getElementById("tongTien").innerText = `Tổng Tiền: ${tongTien}đ`;
+        document.getElementById("tongTien").innerText = `${tongTien}đ`;
 
 
         // cập nhật lại giỏ hàng của khách trong localStorage
@@ -632,8 +648,6 @@ function addProduct(button) {
                 money: price,
             }
             ThemGioHang(gioHang,check);
-
-
     }
     // chưa đăng nhập ==> bắt đăng nhập
     else {
@@ -692,9 +706,12 @@ function deleteProduct(button) {
     else {
         button.parentElement.parentElement.querySelector(".soLuong").innerText = soLuong - 1;
     }
-    var thanhTien = parseInt(button.parentElement.parentElement.querySelector(".donGia").innerText); 
-    var tong = parseInt(document.getElementById("tongTien").innerText) - thanhTien;
-    document.getElementById("tongTien").innerText = `Tổng Tiền: ${tong}đ`;
+    var thanhTien = parseInt(button.parentElement.parentElement.querySelector(".donGia").innerText) * parseInt(button.parentElement.parentElement.querySelector(".soLuong").innerText);
+    console.log(thanhTien);
+    button.parentElement.parentElement.querySelector(".thanhTien").innerText = `${thanhTien}đ`;
+    var tong = parseInt(document.getElementById("tongTien").innerText) - parseInt(button.parentElement.parentElement.querySelector(".donGia").innerText);
+    console.log(tong);
+    document.getElementById("tongTien").innerText = `${tong}đ`;
 
     // Cập nhật lại giỏ hàng của khách trên localStorage
     var hinh = button.parentElement.parentElement.querySelector(".hinh").getAttribute("src");
@@ -703,8 +720,21 @@ function deleteProduct(button) {
 
 }
 
+
 function moDonHang() {
     document.getElementById("donHang").style.display = "block";
+    var hoten = document.getElementById("show-hoten").innerText;
+    var sdt = document.getElementById("show-sdt").innerText;
+    var s = `
+        <p id="hoten-mua">Họ Tên: <span >${hoten}</span></p>
+        <p id="sdt-mua">Số Điện Thoại: <span >${sdt}</span> </p>
+        <p id="title">Sản Phẩm Chọn Mua</p>
+        <ul id="sanpham-mua">
+
+        </ul>
+        <p id="tongtien-mua"></p>
+    `;
+    document.getElementById("mid-donhang").innerHTML = s;
     var a = document.getElementById("showShopTable").children; 
     var s = "";
     var thanhTien = 0;
@@ -718,11 +748,140 @@ function moDonHang() {
     document.getElementById("sanpham-mua").innerHTML = s;
     document.getElementById("tongtien-mua").innerHTML = `Tổng Tiền: ${thanhTien}đ`;
 }
+
 var donhangContainer = document.getElementById("main-donhang");
 donhangContainer.addEventListener('click', function(event) {
     event.stopPropagation();
 })
-function huyDonHang() {
+function dongDonHang() {
     document.getElementById("donHang").style.display = "none";
 }
 
+function muaHang() {
+    alert("Đơn hàng của bạn đã được gửi đến admin. Vui lòng chờ Xử lý!");
+    dongDonHang();
+    // Xóa giỏ hàng
+    var listGioHang = JSON.parse(localStorage.getItem("listGioHang"));
+    var taikhoan = document.getElementById("show-taikhoan").innerText;
+    var gioHang = [];
+    for (var a of listGioHang) {
+        if (a.taikhoan === taikhoan) {
+            gioHang = a.giohang;
+            a.giohang = [];
+        }
+    }
+    localStorage.setItem("listGioHang", JSON.stringify(listGioHang));
+
+    document.getElementById("showShopTable").innerHTML = "";
+    document.getElementById("showShop").style.display = "none";
+    document.getElementById("tongTien").innerText = "0đ";
+    document.getElementById("quantity").innerText = 0;
+
+    console.log(document.getElementById("order-body").childElementCount);
+    if (document.getElementById("order-body").childElementCount === 0) {
+        var so = 0;
+    }
+    else {
+        var h = document.getElementById("order-body").lastElementChild.querySelector(".madh").innerText;
+        var m = h.indexOf("-");
+        var so = parseInt(h.slice(m+1))+1;
+    }
+    // Thêm vào listDonHang
+    var listDonHang = JSON.parse(localStorage.getItem("listDonHang"));
+    for (var a of listDonHang) {
+        if (a.taikhoan === taikhoan) {
+            a.donhang.push({
+                madh: `${taikhoan}-${so}`,
+                duocDuyet: false,
+                giohang: gioHang,
+            })
+        }
+    }
+    localStorage.setItem("listDonHang", JSON.stringify(listDonHang));
+}
+
+function inDonHang() {
+    document.getElementById("order-body").innerHTML = "";
+    var taikhoan = document.getElementById("show-taikhoan").innerText;
+    var listDonHang = JSON.parse(localStorage.getItem("listDonHang"));
+        var arr = [];
+        for (var a of listDonHang) {
+            if (a.taikhoan === taikhoan) {
+                arr = a.donhang;
+            }
+        }
+        var s = "";
+        var tong = 0;
+        var stt = 0;
+        console.log(arr);
+        for (let i = 0; i < arr.length; i++) {
+            for (let j = 0; j < arr[i].giohang.length; j++) {
+                s+= `<span class="ten">${arr[i].giohang[j].nameProduct}</span> <span class="sl">(${arr[i].giohang[j].quantity})</span><br>`;
+                tong+= parseInt(arr[i].giohang[j].money);
+            }
+
+            // inner vào Đơn hàng của trang người dùng đó thành đã xử lý
+            if (arr[i].duocDuyet === true) { // đã xử lý thì không được hủy đơn hàng nữa.
+                var xuLy = "Đã Xử Lý";
+                var btn = "";
+            }
+            else {
+                var xuLy = "Chưa Xử Lý";
+                var btn = `<button onclick="huyDonHang(this);">Hủy đơn hàng</button>`;
+            }
+
+            document.getElementById("order-body").innerHTML += `
+            <tr>
+                <td class="sott">${++stt}</td>
+                <td class="madh">${arr[i].madh}</td>
+                <td class="listsp">
+                    ${s}
+                </td>
+                <td id="tongtien">${tong}đ</td>
+                <td>${xuLy}</td>
+                <td>${btn}</td>
+            </tr>`
+            s = "";
+            tong = 0;
+        }
+}
+
+var click = false;
+function showOrder() {
+    if (!click) {
+        document.getElementById("main-order").style.display = "block";
+        click = true;
+        inDonHang();
+    }
+    else {
+        document.getElementById("main-order").style.display = "none";
+        click = false;
+    }
+}
+
+
+function huyDonHang(button) {
+    var taikhoan = document.getElementById("show-taikhoan").innerText;
+    var madh = button.parentElement.parentElement.querySelector(".madh").innerText;
+    console.log("madh",madh);
+    var listDonHang = JSON.parse(localStorage.getItem("listDonHang"));
+    var arr = [];
+    for (var a of listDonHang) {
+        if (a.taikhoan === taikhoan) {
+            arr = a.donhang;
+        }
+    }
+    
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i].madh === madh) {
+            arr.splice(i,1);
+            break;
+        }
+    }
+    for (var a of listDonHang) {
+        if (a.taikhoan === taikhoan) {
+            a.donhang = arr;
+        }
+    }
+    localStorage.setItem("listDonHang",JSON.stringify(listDonHang));
+}

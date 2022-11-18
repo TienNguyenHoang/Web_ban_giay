@@ -14,8 +14,7 @@ function hienThiTrangAdmin(obj) {
             break;
         }
         case "quanlydonhang": {
-    
-
+            quanlydonhang();
             break;
         }
         case "thongkekinhdoanh": {
@@ -776,3 +775,283 @@ function thietlapAdd() {
 }
 
 
+
+
+
+function quanlydonhang() {
+    var s = `
+    <div class = "content">
+        <h1 id="title-chuaXuLy">Các Đơn Hàng Chưa Xử Lý</h1>
+        <table id="quanlydonhang-chuaXuLy">
+            <thead>
+                <th>STT</th>
+                <th>Mã Đơn Hàng</th>
+                <th>Tên Khách Hàng</th>
+                <th>Số Điện Thoại</th>
+                <th>Sản Phẩm</th>
+                <th>Thành Tiền</th>
+                <th>Action</th>
+            </thead>
+            <tbody id="table-chuaXuLy">
+
+            </tbody>
+        
+            <tfoot>
+                <tr>
+                    <td colspan="7">
+                        <button onclick="duyetHetDonHang(this);">Duyệt Hết</button>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+
+    <div class = "content">
+        <h1 id="title-daXuLy">Các Đơn Hàng Đã Xử Lý</h1>
+        <table id="quanlydonhang-daXuLy">
+            <thead>
+                <th>STT</th>
+                <th>Mã Đơn Hàng</th>
+                <th>Tên Khách Hàng</th>
+                <th>Số Điện Thoại</th>
+                <th>Sản Phẩm</th>
+                <th>Thành Tiền</th>
+            </thead>
+
+            <tbody id="table-daXuLy">
+
+            </tbody>
+        </table>
+    </div>
+
+
+`;
+    document.getElementById("container").innerHTML = s;
+    
+
+    //  Những Đơn Hàng Chưa Duyệt
+
+{/* <tr>
+<td>1</td>
+<td class="maDonHang">tiennguyen0</td>
+<td class="tenKhachHang">Nguyễn Hoàng Tiến</td>
+<td class="sdtKhachHang">0763732400</td>
+<td class="SanPham">
+    Hunter Street Bloomin' Central DSMH08500DEN Đen (5) <br>
+    Hunter Street Bloomin' Central DSMH08500DEN Đen (5) <br>
+    Hunter Street Bloomin' Central DSMH08500DEN Đen (5) <br>
+    Hunter Street Bloomin' Central DSMH08500DEN Đen (5) <br>
+</td>
+<td class="ThanhTien">130000000đ</td>
+<td>
+    <button onclick="duyetDonHang(this);">Duyệt</button>
+</td>
+</tr> */}
+
+    var listDonHang = JSON.parse(localStorage.getItem("listDonHang"));
+    var string = "";
+    var s = "";
+    var sttchuaXuLy = 0;
+    var sttdaXuLy = 0;
+    var tong = 0;
+    for (var a of listDonHang) {
+        if (a.donhang.length !== 0) {
+            for (var i = 0; i < a.donhang.length; i++) {
+                if (a.donhang[i].duocDuyet === false) { // Chưa được duyệt ==> In trong table-chuaXuLy
+                    for (var j = 0; j < a.donhang[i].giohang.length; j++) {
+                        s+= `<span class="Ten">${a.donhang[i].giohang[j].nameProduct}</span> <span class="SoLuong">(${a.donhang[i].giohang[j].quantity})</span><br>`;
+                        tong+= parseInt(a.donhang[i].giohang[j].money);
+                    }
+                    string = `
+                    <tr>
+                        <td>${++sttchuaXuLy}</td>
+                        <td class="maDonHang">${a.donhang[i].madh}</td>
+                        <td class="tenKhachHang">${a.name}</td>
+                        <td class="sdtKhachHang">${a.sdt}</td>
+                        <td class="SanPham">
+                            ${s}
+                        </td>
+                        <td class="ThanhTien">${tong}đ</td>
+                        <td>
+                            <button onclick="duyetDonHang(this);">Duyệt</button>
+                        </td>
+                    </tr>`;
+                    document.getElementById("table-chuaXuLy").innerHTML += string;
+                    s = "";
+                    tong = 0;
+                }
+
+                else { // Được duyệt rồi ==> In trong table-daXuLy
+                    for (var j = 0; j < a.donhang[i].giohang.length; j++) {
+                        s+= `<span class="Ten">${a.donhang[i].giohang[j].nameProduct}</span> <span class="SoLuong">(${a.donhang[i].giohang[j].quantity})</span><br>`;
+                        tong+= parseInt(a.donhang[i].giohang[j].money);
+                    }
+                    string = `
+                    <tr>
+                        <td>${++sttdaXuLy}</td>
+                        <td class="maDonHang">${a.donhang[i].madh}</td>
+                        <td class="tenKhachHang">${a.name}</td>
+                        <td class="sdtKhachHang">${a.sdt}</td>
+                        <td class="SanPham">
+                            ${s}
+                        </td>
+                        <td class="ThanhTien">${tong}đ</td>
+                    </tr>`;
+                    document.getElementById("table-daXuLy").innerHTML += string;
+                    s = "";
+                    tong = 0;
+                }
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+    // -------------------------------------------------------------------
+
+
+
+
+
+
+
+    //  Những Đơn Hàng Đã Duyệt
+
+
+{/* <tr>
+    <td>1</td>
+    <td class="maDonHang">tiennguyen0</td>
+    <td class="tenKhachHang">Nguyễn Hoàng Tiến</td>
+    <td class="sdtKhachHang">0763732400</td>
+    <td class="SanPham">
+        Hunter Street Bloomin' Central DSMH08500DEN Đen (5) <br>
+        Hunter Street Bloomin' Central DSMH08500DEN Đen (5) <br>
+        Hunter Street Bloomin' Central DSMH08500DEN Đen (5) <br>
+        Hunter Street Bloomin' Central DSMH08500DEN Đen (5) <br>
+    </td>
+    <td class="ThanhTien">130000000đ</td>
+</tr> */}
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    // -------------------------------------------------------------------
+}
+
+
+/** Khi bấm duyệt
+ * đưa vào localStorage listDonHang-daXuLy, in ra trong table listDonHang daXuLy
+ * xóa số đi số lượng sản phẩm trên localStorage: nike/adidas/jordan/men/bitis , sanPham
+ * inner vào Đơn hàng của trang người dùng đó thành đã xử lý
+ */
+function duyetDonHang(button) {
+    alert("Duyệt Thành Công!");
+    
+    // Chuyển đơn hàng từ chưa xử lý sang xử lý
+    var tenKhachHang = button.parentElement.parentElement.querySelector(".tenKhachHang").innerText;
+    var maDonHang = button.parentElement.parentElement.querySelector(".maDonHang").innerText;
+    var listDonHang = JSON.parse(localStorage.getItem("listDonHang"));
+    var listSanPham = [];
+    for (var a of listDonHang) {
+        if (a.name === tenKhachHang) {
+            for (var i = 0; i < a.donhang.length; i++) {
+                if (a.donhang[i].madh === maDonHang) {
+                    a.donhang[i].duocDuyet = true;
+                    listSanPham = a.donhang[i].giohang;
+                }
+            }
+        }
+    }
+    localStorage.setItem("listDonHang", JSON.stringify(listDonHang));
+
+
+
+
+    // Xóa đi số lượng sản phẩm hiện có
+    var nike = JSON.parse(localStorage.getItem("nike"));
+    var adidas = JSON.parse(localStorage.getItem("adidas"));
+    var jordan = JSON.parse(localStorage.getItem("jordan"));
+    var men = JSON.parse(localStorage.getItem("men"));
+    var bitis = JSON.parse(localStorage.getItem("bitis"));
+    var sanPham = JSON.parse(localStorage.getItem("sanPham"));
+
+    for (var a of listSanPham) {
+        for (var i = 0; i < sanPham.length; i++) {
+            for (var j = 0; j < sanPham[i].length; j++) {
+                if (a.nameProduct === sanPham[i][j].name) {
+                    if (a.quantity === sanPham[i][j].quantity) {
+                    // Xóa ở các mảng sản phẩm
+                        if (sanPham[i][j].brand === "Nike") {
+                            nike.splice(j,1);
+                        }
+                        else if (sanPham[i][j].brand === "Adidas") {
+                            adidas.splice(j,1);
+                        }
+                        else if (sanPham[i][j].brand === "Jordan") {
+                            jordan.splice(j,1);
+                        }
+                        else if (sanPham[i][j].brand === "Men") {
+                            men.splice(j,1);
+                        }
+                        else {
+                            bitis.splice(j,1);
+                        }
+                    }
+                    else {
+                        console.log("Số lượng",a.quantity);
+                        if (sanPham[i][j].brand === "Nike") {
+                            nike[j].quantity -= a.quantity;
+                        console.log(nike[j].quantity);
+                        }
+                        else if (sanPham[i][j].brand === "Adidas") {
+                            adidas[j].quantity -= a.quantity;
+                            console.log(adidas[j].quantity);
+                        }
+                        else if (sanPham[i][j].brand === "Jordan") {
+                            jordan[j].quantity -= a.quantity;
+                            console.log(jordan[j].quantity);
+                        }
+                        else if (sanPham[i][j].brand === "Men") {
+                            men[j].quantity -= a.quantity;
+                            console.log(men[j].quantity);
+                        }
+                        else {
+                            bitis[j].quantity -= a.quantity;
+                            console.log(bitis[j].quantity);
+                        }
+                    }
+            
+                }
+            }
+        }
+
+    }
+
+    sanPham = [nike,adidas,jordan,men,bitis];
+    localStorage.setItem("nike",JSON.stringify(nike));
+    localStorage.setItem("adidas",JSON.stringify(adidas));
+    localStorage.setItem("jordan",JSON.stringify(jordan));
+    localStorage.setItem("men",JSON.stringify(men));
+    localStorage.setItem("bitis",JSON.stringify(bitis));
+    localStorage.setItem("sanPham",JSON.stringify(sanPham));
+
+
+}

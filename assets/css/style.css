@@ -22,7 +22,8 @@ a {
     color: red;
 }
 #top-header #sign-in,
-#top-header #user {
+#top-header #user,
+#top-header #order{
     border-right: 1px solid #ccc;
     padding-right: 10px;
     margin-left: 10px;
@@ -45,6 +46,30 @@ a {
     min-height: 100px;
 }
 
+#top-header #order {
+    position: relative;
+    display: none;
+}
+
+#top-header #main-order {
+    position: absolute;
+    right: 0;
+    z-index: 1;
+    display: none;
+    background-color: #fff;
+    box-shadow: 0 0 10px;
+    min-width: 700px;
+}
+
+#main-order #order-table {
+    text-align: center;
+    padding: 10px;
+}
+
+#main-order #order-table th,
+#main-order #order-table td {
+    border: 1px solid #ccc;
+}
 
 #hotline span a {
     font-weight: 1000;
@@ -578,6 +603,66 @@ tbody tr .action button {
 tbody #themSp {
     cursor: pointer;
 }
+
+
+/* ------------------------------------------------*/
+
+
+/* ----------------QuanlyDonHang-------------------*/
+#container .content #title-daXuLy,
+#container .content #title-chuaXuLy {
+    text-align: center;
+    margin: 50px 50px;
+}
+#container .content #quanlydonhang-daXuLy,
+#container .content #quanlydonhang-chuaXuLy {
+    text-align: center;
+    width: 1200px;
+    height: 200px;
+    position: relative;
+    line-height: 60px;
+    left: 10%;
+}
+
+.content #quanlydonhang-daXuLy th,
+.content #quanlydonhang-chuaXuLy th{
+    border-bottom: 1px solid #000;
+    font-size: 20px;
+}
+
+.content #quanlydonhang-daXuLy tbody tr,
+.content #quanlydonhang-chuaXuLy tbody tr {
+    margin-top: 5px;
+    border-bottom: 1px solid #000;
+    font-size: 15px;
+}
+
+.content #quanlydonhang-daXuLy tbody td,
+.content #quanlydonhang-chuaXuLy tbody td {
+    border-bottom: 1px solid #000;
+}
+
+.content #quanlydonhang-chuaXuLy tbody tr td button {
+    width: 100%;
+    border: none;
+    padding: 10px;
+    background-color: #e74c3c;
+    color: #fff;
+    cursor: pointer;
+}
+
+.content #quanlydonhang-chuaXuLy tfoot tr td button {
+    width: 100%;
+    border: none;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 10px;
+    background-color: #e74c3c;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* ------------------------------------------------*/
 
 
 /* ----------------------Edit------------------------- */

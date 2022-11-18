@@ -1,7 +1,6 @@
 
 
 
-
 function giay(productId,brand,img,name,price,quantity) {
     this.productId = productId;
     this.brand = brand;
