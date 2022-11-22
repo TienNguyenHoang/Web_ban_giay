@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body class = "reset">
+    <div id="warper">
+        <div id="sign_up">
+            <div class="form">
+                <button class = "exit reset top_left">X</button>
+                <form action="do_an.html" method="get" id = "sign_up_form" name = "sign_up">
+                    
+                    <label for="email" class = "label_form">Email</label>
+                    <input type = "email" id = "email" name = "email" class = "reset input_form" required placeholder="vidu@gmail">
+
+                    <label for= "sdt" class = "label_form">Số điện thoại</label>
+                    <input type = "tel" pattern="[0-9]{10}" id = "sdt" name = "sdt" class = "reset input_form" required placeholder="0123456789">
+
+                    <label for="password_1" class = "label_form">Mật khẩu</label>
+                    <div class="see_hide_pass">
+                        <input type = "password" id = "password_1" name = "password_1" class = "reset input_form password" required placeholder="Mật khẩu dễ nhớ">
+                        <button type = "button" class = "reset place"></button>
+                        <i class="reset slash"></i>
+                    </div>
+
+                    <label for = "password_2" class = "label_form">Nhập lại mật khẩu</label>
+                    <div class="see_hide_pass">
+                        <input type = "password" id = "password_2" name = "password_2" class = "reset input_form password" required placeholder="Lập lại mật khẩu">
+                        <button type = "button" class = "reset place"></button>
+                        <i class="reset slash"></i>
+                    </div>
+                    <button type = "button" class = "exit big reset">Thoát</button>    
+                    <button type = "submit" class = "OK reset" >OK</button>      
+                </form>  
+            </div>
+        </div>
+        <!-- 5  -->
+        <div id="sign_in">
+            <div class="form">
+                <button class="exit reset top_left">X</button>
+                <form action="do_an.html" id="sign_in_form">
+                    <label for= "sdt" class = "label_form">Số điện thoại hay gmail</label>
+                    <input type = "text" name = "input" class = "reset input_form" required placeholder="0123456789 hay vidu@gmail.com">
+                    <label for="password_3" class = "label_form">Mật khẩu</label>
+                    <div class="see_hide_pass">
+                        <input type = "password" id = "password_3" name = "password_3" class = "reset input_form password" required placeholder="Mật khẩu dễ nhớ">
+                        <button type = "button" class = "reset place"></button>
+                        <i class="reset slash"></i>
+                    </div>
+                    <button type = "button" class = "exit big reset">Thoát</button>    
+                    <button type = "submit" class = "OK reset" >OK</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="header">
+            <div id="top_menu">
+                <button class = "menu reset" id = "Dang_ky">Đăng ký</button>
+                <button class = "menu reset" id = "Dang_nhap">Đăng nhập</button>
+                <button class = "menu reset">Hotline</button> 
+                <button class = "menu reset">Giỏ hàng</button>
+                <!-- <div class = "reset" id = "search_bar">
+                    <input type="text" class = "reset" id = "textbox">
+                    <input type="submit" class = "reset" id = "search_icon">
+                </div> -->
+
+                <div style = "clear: both;"></div>
+            </div>
+            <div id="main_menu">
+                <p class = "reset logo">Cái logo</p><!-- Có thể thay đổi -->
+                <!-- để các navigation ở đây  -->
+
+            </div>
+        </div>
+        <!-- nội dung trang mạng nằm ở đây -->
+        <p style = "background-color: white" class = "reset">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium laudantium molestias eos odit sint quae soluta deserunt, dolores consequatur explicabo, minus ullam adipisci laboriosam, inventore eaque ea consequuntur magnam! Esse?
+            Quas dolor, dolores unde, neque commodi possimus perferendis vitae pariatur perspiciatis cupiditate quidem quia? Cupiditate nihil eligendi qui voluptatibus, doloremque enim fuga sint illum quis minus modi maiores eos corporis?
+            Iure odio et perferendis delectus aut inventore, eveniet, earum optio voluptate, quia sapiente sequi ullam placeat quos! Fugit, numquam quibusdam. Natus omnis sapiente rem asperiores illo molestiae consectetur repudiandae velit!
+            Illo atque itaque, libero temporibus cumque voluptate! Maiores, ratione. Officia ipsum, consequatur sed repellendus earum adipisci nostrum in, fugit porro numquam quasi totam sit doloremque illo officiis pariatur molestias qui!
+            Harum obcaecati ab necessitatibus aliquid odio? Cumque ducimus voluptas quasi eaque quia. Harum inventore saepe eaque ipsum, laborum labore! Minima maxime corrupti officiis fugiat commodi, quis laboriosam. Minus, aperiam veniam.
+        </p>
+        <div id="footer" style = "border: red solid 2px;">
+            <!-- có thể thay đổi-->
+            <p class = "reset logo">Cái logo</p>
+            <hr style="border: none;" >
+            <!-- có thể thây đổi -->
+            
+            <p style = "color: white; font-size:20px;"> Tôi không biết nên để gì ở đây?</p>
+        </div>
+    </div>
+    <script src = "javascript.js">
+    </script>
+</body>
+</html>
